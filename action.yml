@@ -1,0 +1,10 @@
+name: action/create-react-app-env
+author: Arky Asmal
+description: Create a .env file in a github runner of react app environment variables. Can be used prior to the build step of a React App
+inputs:
+  secrets:
+    REACT_APP_SECRETS:
+      required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

@@ -1,0 +1,21 @@
+{
+  "name": "create-react-app-env",
+  "version": "1.0.0",
+  "description": "Create a .env file in a github runner of react app environment variables. Can be used prior to the build step of a React App",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/index.js -o dist"
+  },
+  "author": "Arky Asmal",
+  "license": "ISC",
+  "devDependencies": {
+    "@zeit/ncc": "=0.22.3",
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "mv": "^2.1.1",
+    "path": "^0.12.7"
+  }
+}
