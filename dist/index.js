@@ -6101,6 +6101,7 @@ const moveFile = async ({
 }) => {
   let curr_path = path.join(directory_start, `${file_name}.${extension}`);
   let destination_folder = directory_des;
+  let destination = path.join(destination_folder, `${file_name}.${extension}`)
   try {
     //create folder if it doesnt exist
     if (!fs.existsSync(destination_folder)) {
