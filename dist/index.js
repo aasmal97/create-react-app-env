@@ -6133,7 +6133,7 @@ const createEnv = async () => {
   const envContent = Object.keys(envValues).map(
     (key) => `${key}=${envValues[key]}\r\n`
   );
-  await fsPromises.writeFile(".env", envContent);
+  await fsPromises.writeFile(path.join(__dirname, ".env"), envContent);
   return "Env Created";
 };
 createEnv()
