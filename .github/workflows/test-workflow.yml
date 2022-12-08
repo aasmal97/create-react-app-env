@@ -9,6 +9,6 @@ jobs:
       uses: ./
       with: 
         secrets:
-          REACT_APP_SECRETS: ${{ JSON(secrets) }}
+          REACT_APP_SECRETS: ${{toJson(secrets)}}
     - name: List Env file
       run: ls -a
