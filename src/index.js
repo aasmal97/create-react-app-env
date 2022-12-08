@@ -1,9 +1,15 @@
-const core = require('@actions/core');
+const core = require("@actions/core");
 require("dotenv").config();
 const mv = require("mv");
 const fs = require("fs");
 const path = require("path");
 const fsPromises = fs.promises;
+const findRootPackageJson = (startDirectory) => {
+  const packagePath = path.join(startDirectory, "package.json");
+  if (fs.existsSync(packagePath)) return packagePath;
+  const pathAbove = path.join(startDirectory, "..");
+  return findRootPackageJson(pathAbove);
+};
 const moveFile = async ({
   file_name = "",
   directory_start = "",
@@ -65,12 +71,13 @@ createEnv()
   .then(async (payload) => {
     console.log(payload);
     const curr_dir = __dirname;
+    const directory_des = findRootPackageJson(curr_dir);
     //move to root directory
     await moveFile({
       file_name: "",
       extension: "env",
       directory_start: curr_dir,
-      directory_des: "../../",
+      directory_des: directory_des,
     });
     console.log("File moved to root");
   })

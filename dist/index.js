@@ -6087,6 +6087,12 @@ const mv = __webpack_require__(279);
 const fs = __webpack_require__(747);
 const path = __webpack_require__(622);
 const fsPromises = fs.promises;
+const findRootPackageJson = (startDirectory) => {
+  const packagePath = path.join(startDirectory, "package.json");
+  if (fs.existsSync(packagePath)) return packagePath;
+  const pathAbove = path.join(startDirectory, "..");
+  return findRootPackageJson(pathAbove);
+};
 const moveFile = async ({
   file_name = "",
   directory_start = "",
@@ -6148,12 +6154,13 @@ createEnv()
   .then(async (payload) => {
     console.log(payload);
     const curr_dir = __dirname;
+    const directory_des = findRootPackageJson(curr_dir);
     //move to root directory
     await moveFile({
       file_name: "",
       extension: "env",
       directory_start: curr_dir,
-      directory_des: "../../",
+      directory_des: directory_des,
     });
     console.log("File moved to root");
   })
