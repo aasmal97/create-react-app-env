@@ -5,7 +5,7 @@ This Github Action generates a local .env file in a github runner for react apps
 Below is an example of an appropriate configuration 
 ```
 name: Create Env
-uses: actions/create-react-app-env
+uses: action/create-react-app-env
 with: 
   REACT_APP_SECRETS: ${{toJson(secrets)}}
 ```
