@@ -18,7 +18,7 @@ const moveFile = async ({
 }) => {
   let curr_path = path.join(directory_start, `${file_name}.${extension}`);
   let destination_folder = directory_des;
-  let destination = path.join(destination_folder, `${file_name}.${extension}`)
+  let destination = path.join(destination_folder, `${file_name}.${extension}`);
   try {
     //create folder if it doesnt exist
     if (!fs.existsSync(destination_folder)) {
@@ -39,7 +39,8 @@ const moveFile = async ({
 };
 
 const createEnv = async () => {
-  const secretsParse = JSON.parse(core.getInput("REACT_APP_SECRETS"));
+  const inputs = core.getInput("REACT_APP_SECRETS");
+  const secretsParse = typeof inputs === "string" ? JSON.parse(inputs) : inputs;
   const reactAppSecrets = Object.entries(secretsParse).filter(([key, value]) =>
     /REACT_APP.*/.test(key)
   );
