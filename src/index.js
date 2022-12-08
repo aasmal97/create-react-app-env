@@ -6,7 +6,7 @@ const path = require("path");
 const fsPromises = fs.promises;
 const findRootPackageJson = (startDirectory) => {
   const packagePath = path.join(startDirectory, "package.json");
-  if (fs.existsSync(packagePath)) return packagePath;
+  if (fs.existsSync(packagePath)) return startDirectory;
   const pathAbove = path.join(startDirectory, "..");
   return findRootPackageJson(pathAbove);
 };
