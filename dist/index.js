@@ -6097,25 +6097,10 @@ const moveFile = async ({
   file_name = "",
   directory_start = "",
   directory_des = "",
-  moveDeeper = true,
   extension = ".env",
 }) => {
   let curr_path = path.join(directory_start, `${file_name}.${extension}`);
-  let destination = path.join(
-    directory_start,
-    directory_des,
-    `${file_name}.${extension}`
-  );
-  let destination_folder = path.join(directory_start, directory_des);
-  if (!moveDeeper) {
-    curr_path = path.join(
-      directory_des,
-      directory_start,
-      `${file_name}.${extension}`
-    );
-    destination = path.join(directory_des, `${file_name}.${extension}`);
-    destination_folder = path.join(directory_des);
-  }
+  let destination_folder = directory_des;
   try {
     //create folder if it doesnt exist
     if (!fs.existsSync(destination_folder)) {
