@@ -3,10 +3,10 @@ on: [push, pull_request]
 jobs:
   Test-Workflow:
     runs-on: ubuntu-latest
+    working-directory: ./src
     steps:
     - uses: actions/checkout@v1
     - name: Create Env
-      working-directory: ./src
       uses: ./
       with: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
