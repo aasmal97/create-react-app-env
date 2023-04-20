@@ -11,4 +11,4 @@ jobs:
       with: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
     - name: List Env file
-      run: ls -a
+      run: cd src; ls -a
