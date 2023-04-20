@@ -91,7 +91,7 @@ const moveEnv = async (payload: {
   console.log(output);
   core.setOutput("reactSecrets", envValues);
 };
-const createEnvFile = async ({
+export const createEnvFile = async ({
   inputs,
   customName,
   customDirectory,
@@ -111,7 +111,7 @@ const createEnvFile = async ({
     core.setFailed("Something went wrong. Check error in logs");
   }
 };
-const main = async () => {
+export const main = async () => {
   const inputs = core.getInput("REACT_APP_SECRETS");
   const customName = core.getInput("ENV_FILE_NAME");
   const customDirectory = core.getInput("DESTINATION_PATH");
@@ -121,4 +121,4 @@ const main = async () => {
     customDirectory,
   });
 };
-main()
+main();

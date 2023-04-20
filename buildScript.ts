@@ -16,18 +16,10 @@ export function execShellCommand(cmd: string, cwd?: string) {
     );
   });
 }
-
-execShellCommand(`tsc`, __dirname)
-  .then(async (e) => {
-    console.log(e);
-    //bundle node index file
-    const command = "./src/index.ts";
-    const outPath = "./dist";
-    execShellCommand(
-      `npx esbuild ${command} --bundle --platform=node --outdir=${outPath}`,
-      __dirname
-    );
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+//bundle node index file
+const command = "./src/index.ts";
+const outPath = "./dist";
+execShellCommand(
+  `npx esbuild ${command} --bundle --platform=node --outdir=${outPath}`,
+  __dirname
+);
