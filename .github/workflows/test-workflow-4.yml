@@ -3,12 +3,15 @@ on: [push, pull_request]
 jobs:
   Test-Workflow:
     runs-on: ubuntu-latest
-    working-directory: ./src
     steps:
     - uses: actions/checkout@v1
     - name: Create Env
       uses: ./
       with: 
         REACT_APP_SECRETS: ${{toJson(secrets)}}
+        ENV_FILE_NAME: 'local'
+        WORKING_DIRECTORY_PATH: ${{ github.workspace }}/src
     - name: List Env file
-      run: cd src; ls -a
+      run: ls -a
+
+

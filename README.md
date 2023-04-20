@@ -21,7 +21,7 @@ with:
 - `REACT_APP_SECRETS`: Takes in a stringified JSON object that holds all your secrets or variables ***(required)***
 - `ENV_FILE_NAME`: If you want to customized the .env name (i.e `local.env`, etc), add the desired name here. ***(optional)***
 - `DESTINATION_PATH`: The ABSOLUTE PATH, that you want the .env file to be generated in ***(optional)***
-
+- `WORKING_DIRECTORY_PATH`: The ABSOLUTE PATH, that you want the action to start at ***(optional)***
 ## Full Example of usage:
 ```
 name: Create Env
@@ -33,7 +33,7 @@ with:
 ```
 ## Tips
 - Due to multiple projects having different configs and project directory structures, it is best to provide a `DESTINATION_PATH` value, so the location of the file being generated does not change and is always known. 
-- If you wish to rely on the auto-detection of the nearest `package.json`, and not specify an absolute destination path, try to ensure consistency by setting the `working-directory` of the action as close as possible, to the package.json file. Below is an example of this: 
+- If you wish to rely on the auto-detection of the nearest `package.json`, and not specify an absolute destination path, try to ensure consistency by setting a `WORKING_DIRECTORY_PATH` of the action as close as possible, to the package.json file. Below is an example of this: 
 
 ```
 name: Create Env

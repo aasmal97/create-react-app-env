@@ -5143,7 +5143,8 @@ var moveFile = async ({
 };
 var createEnv = async ({
   customName,
-  inputs
+  inputs,
+  workingDirectory
 }) => {
   const fileName = customName ? customName : "";
   const secretsParse = JSON.parse(inputs);
@@ -5157,7 +5158,7 @@ var createEnv = async ({
     (key) => `${key} = "${envValues[key]}"\r
 `
   );
-  const startDirectory = process.cwd();
+  const startDirectory = workingDirectory ? workingDirectory : process.cwd();
   const startFilePath = path.join(startDirectory, `${fileName}.env`);
   await fsPromises.writeFile(startFilePath, envContent);
   if (reactAppSecrets.length <= 0) {
@@ -5180,7 +5181,7 @@ var createEnv = async ({
 };
 var moveEnv = async (payload) => {
   const { fileName, envValues, startDirectory } = payload;
-  const currDirectory = process.cwd();
+  const currDirectory = payload.workingDirectory ? payload.workingDirectory : process.cwd();
   const directoryDes = payload.customDirectory ? payload.customDirectory : findRootPackageJson(currDirectory);
   await moveFile({
     fileName,
@@ -5194,14 +5195,16 @@ var moveEnv = async (payload) => {
 var createEnvFile = async ({
   inputs,
   customName,
-  customDirectory
+  customDirectory,
+  workingDirectory
 }) => {
   try {
     const payload = await createEnv({
       inputs,
-      customName
+      customName,
+      workingDirectory
     });
-    await moveEnv({ ...payload, customDirectory });
+    await moveEnv({ ...payload, customDirectory, workingDirectory });
   } catch (err) {
     console.error(err);
     core.setFailed("Something went wrong. Check error in logs");
@@ -5211,10 +5214,12 @@ var main = async () => {
   const inputs = core.getInput("REACT_APP_SECRETS");
   const customName = core.getInput("ENV_FILE_NAME");
   const customDirectory = core.getInput("DESTINATION_PATH");
+  const workingDirectory = core.getInput("WORKING_DIRECTORY_PATH");
   return createEnvFile({
     inputs,
     customName,
-    customDirectory
+    customDirectory,
+    workingDirectory
   });
 };
 main();

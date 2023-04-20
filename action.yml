@@ -8,6 +8,8 @@ inputs:
     required: false
   DESTINATION_PATH:
     required: false
+  WORKING_DIRECTORY_PATH:
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -33,13 +33,14 @@ const moveFile = async ({
   //move file
   await mvPromise(curr_path, destination);
 };
-
 const createEnv = async ({
   customName,
   inputs,
+  workingDirectory,
 }: {
   customName?: string;
   inputs: string;
+  workingDirectory?: string;
 }) => {
   const fileName = customName ? customName : "";
   const secretsParse = JSON.parse(inputs) as { [key: string]: string };
@@ -53,14 +54,14 @@ const createEnv = async ({
   const envContent = Object.keys(envValues).map(
     (key) => `${key} = "${envValues[key]}"\r\n`
   );
-  const startDirectory = process.cwd()
-  const startFilePath = path.join(startDirectory, `${fileName}.env`)
+  const startDirectory = workingDirectory ? workingDirectory : process.cwd();
+  const startFilePath = path.join(startDirectory, `${fileName}.env`);
   await fsPromises.writeFile(startFilePath, envContent);
   //notify what secrets were copied
   if (reactAppSecrets.length <= 0) {
     core.setFailed("No React App secrets found to extract");
     return {
-      startDirectory, 
+      startDirectory,
       envValues,
       fileName: `${fileName}.env`,
     };
@@ -71,7 +72,7 @@ const createEnv = async ({
   )} copied`;
   console.log(secretNamesCopied);
   return {
-    startDirectory, 
+    startDirectory,
     envValues,
     fileName: `${fileName}.env`,
   };
@@ -80,12 +81,15 @@ const moveEnv = async (payload: {
   customDirectory?: string;
   fileName: string;
   startDirectory: string;
+  workingDirectory?: string;
   envValues: {
     [key: string]: string;
   };
 }) => {
   const { fileName, envValues, startDirectory } = payload;
-  const currDirectory = process.cwd();
+  const currDirectory = payload.workingDirectory
+    ? payload.workingDirectory
+    : process.cwd();
   const directoryDes = payload.customDirectory
     ? payload.customDirectory
     : findRootPackageJson(currDirectory);
@@ -104,17 +108,20 @@ export const createEnvFile = async ({
   inputs,
   customName,
   customDirectory,
+  workingDirectory,
 }: {
   inputs: string;
   customName?: string;
   customDirectory?: string;
+  workingDirectory?: string;
 }) => {
   try {
     const payload = await createEnv({
       inputs,
       customName,
+      workingDirectory,
     }); //create env file and return payload
-    await moveEnv({ ...payload, customDirectory }); //move env file
+    await moveEnv({ ...payload, customDirectory, workingDirectory }); //move env file
   } catch (err) {
     console.error(err);
     core.setFailed("Something went wrong. Check error in logs");
@@ -124,10 +131,12 @@ export const main = async () => {
   const inputs = core.getInput("REACT_APP_SECRETS");
   const customName = core.getInput("ENV_FILE_NAME");
   const customDirectory = core.getInput("DESTINATION_PATH");
+  const workingDirectory = core.getInput("WORKING_DIRECTORY_PATH");
   return createEnvFile({
     inputs,
     customName,
     customDirectory,
+    workingDirectory,
   });
 };
 main();
