@@ -4,6 +4,10 @@ description: Create a .env file in a github runner of react app environment vari
 inputs:
   REACT_APP_SECRETS:
     required: true
+  ENV_FILE_NAME: 
+    required: false
+  DESTINATION_PATH:
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

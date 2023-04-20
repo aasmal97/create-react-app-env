@@ -113,12 +113,12 @@ const createEnvFile = async ({
 };
 const main = async () => {
   const inputs = core.getInput("REACT_APP_SECRETS");
-  const customName = core.getInput("ENV_NAME");
+  const customName = core.getInput("ENV_FILE_NAME");
   const customDirectory = core.getInput("DESTINATION_PATH");
-  createEnvFile({
+  return createEnvFile({
     inputs,
     customName,
     customDirectory,
   });
 };
-main();
+main()

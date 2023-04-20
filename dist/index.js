@@ -5190,9 +5190,9 @@ var createEnvFile = async ({
 };
 var main = async () => {
   const inputs = import_core.default.getInput("REACT_APP_SECRETS");
-  const customName = import_core.default.getInput("ENV_NAME");
+  const customName = import_core.default.getInput("ENV_FILE_NAME");
   const customDirectory = import_core.default.getInput("DESTINATION_PATH");
-  createEnvFile({
+  return createEnvFile({
     inputs,
     customName,
     customDirectory
