@@ -37,8 +37,8 @@ with:
 
 ```
 name: Create Env
-working-directory: ./src
 uses: aasmal97/create-react-app-env@2.0.0
 with: 
+  WORKING_DIRECTORY_PATH: ${{ github.workspace }}/src
   REACT_APP_SECRETS: ${{toJson(secrets)}}
 ```
