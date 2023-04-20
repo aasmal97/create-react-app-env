@@ -1,0 +1,14 @@
+name: "Test Workflow 2"
+on: [push, pull_request]
+jobs:
+  Test-Workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Create Env
+      uses: ./
+      with: 
+        REACT_APP_SECRETS: ${{toJson(secrets)}}
+        ENV_FILE_NAME: 'local'
+    - name: List Env file
+      run: ls -a
