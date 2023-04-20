@@ -5154,11 +5154,11 @@ var createEnv = async ({
   for (let [key, value] of reactAppSecrets)
     envValues[key] = value;
   const envContent = Object.keys(envValues).map(
-    (key) => `${key} = ${envValues[key]}\r
+    (key) => `${key} = "${envValues[key]}"\r
 `
   );
   const startDirectory = process.cwd();
-  const startFilePath = path.join(process.cwd(), `${fileName}.env`);
+  const startFilePath = path.join(startDirectory, `${fileName}.env`);
   await fsPromises.writeFile(startFilePath, envContent);
   if (reactAppSecrets.length <= 0) {
     core.setFailed("No React App secrets found to extract");

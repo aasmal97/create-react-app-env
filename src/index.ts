@@ -38,7 +38,7 @@ const createEnv = async ({
   customName,
   inputs,
 }: {
-  customName: string;
+  customName?: string;
   inputs: string;
 }) => {
   const fileName = customName ? customName : "";
@@ -51,10 +51,10 @@ const createEnv = async ({
   } = {};
   for (let [key, value] of reactAppSecrets) envValues[key] = value;
   const envContent = Object.keys(envValues).map(
-    (key) => `${key} = ${envValues[key]}\r\n`
+    (key) => `${key} = "${envValues[key]}"\r\n`
   );
   const startDirectory = process.cwd()
-  const startFilePath = path.join(process.cwd(), `${fileName}.env`)
+  const startFilePath = path.join(startDirectory, `${fileName}.env`)
   await fsPromises.writeFile(startFilePath, envContent);
   //notify what secrets were copied
   if (reactAppSecrets.length <= 0) {
@@ -106,8 +106,8 @@ export const createEnvFile = async ({
   customDirectory,
 }: {
   inputs: string;
-  customName: string;
-  customDirectory: string;
+  customName?: string;
+  customDirectory?: string;
 }) => {
   try {
     const payload = await createEnv({
