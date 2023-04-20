@@ -15,16 +15,17 @@ const moveFile = async ({
   fileName = "",
   directoryStart = "",
   directoryDes = "",
-  extension = "env",
+  extension,
 }: {
   fileName: string;
   directoryStart: string;
   directoryDes: string;
-  extension: string;
+  extension?: string;
 }) => {
-  let curr_path = path.join(directoryStart, `${fileName}.${extension}`);
+  const fullFileName = extension ? `${fileName}.${extension}` : fileName;
+  let curr_path = path.join(directoryStart, fullFileName);
   let destination_folder = directoryDes;
-  let destination = path.join(destination_folder, `${fileName}.${extension}`);
+  let destination = path.join(destination_folder, fullFileName);
   //create folder if it doesnt exist
   if (!fs.existsSync(destination_folder)) {
     await fsPromises.mkdir(destination_folder);
@@ -90,7 +91,6 @@ const moveEnv = async (payload: {
   //move to root directory
   await moveFile({
     fileName,
-    extension: "env",
     directoryStart: currDirectory,
     directoryDes: directoryDes,
   });

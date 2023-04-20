@@ -5130,11 +5130,12 @@ var moveFile = async ({
   fileName = "",
   directoryStart = "",
   directoryDes = "",
-  extension = "env"
+  extension
 }) => {
-  let curr_path = path.join(directoryStart, `${fileName}.${extension}`);
+  const fullFileName = extension ? `${fileName}.${extension}` : fileName;
+  let curr_path = path.join(directoryStart, fullFileName);
   let destination_folder = directoryDes;
-  let destination = path.join(destination_folder, `${fileName}.${extension}`);
+  let destination = path.join(destination_folder, fullFileName);
   if (!fs.existsSync(destination_folder)) {
     await fsPromises.mkdir(destination_folder);
   }
@@ -5182,7 +5183,6 @@ var moveEnv = async (payload) => {
   const directoryDes = payload.customDirectory ? payload.customDirectory : findRootPackageJson(currDirectory);
   await moveFile({
     fileName,
-    extension: "env",
     directoryStart: currDirectory,
     directoryDes
   });
