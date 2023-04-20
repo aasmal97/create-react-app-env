@@ -6,7 +6,7 @@ import util from "util";
 const fsPromises = fs.promises;
 const mvPromise = util.promisify(mv);
 const findRootPackageJson = (startDirectory: string): string => {
-  const packagePath = path.join(startDirectory, "./package.json");
+  const packagePath = path.join(startDirectory, "package.json");
   if (fs.existsSync(packagePath)) return startDirectory;
   const pathAbove = path.join(startDirectory, "..");
   return findRootPackageJson(pathAbove);

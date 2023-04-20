@@ -5120,7 +5120,7 @@ var import_util = __toESM(require("util"));
 var fsPromises = fs.promises;
 var mvPromise = import_util.default.promisify(import_mv.default);
 var findRootPackageJson = (startDirectory) => {
-  const packagePath = path.join(startDirectory, "./package.json");
+  const packagePath = path.join(startDirectory, "package.json");
   if (fs.existsSync(packagePath))
     return startDirectory;
   const pathAbove = path.join(startDirectory, "..");
