@@ -5,14 +5,17 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build src/index.js -o dist"
+    "build": "npx ts-node buildScript.ts"
   },
   "author": "Arky Asmal",
   "license": "ISC",
   "devDependencies": {
-    "@zeit/ncc": "=0.22.3",
+    "esbuild": "^0.17.4",
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
+    "@types/mv": "^2.1.2",
+    "@types/node": "^18.15.11",
+    "@zeit/ncc": "=0.22.3",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "mv": "^2.1.1",
