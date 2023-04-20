@@ -12,6 +12,6 @@ jobs:
         ENV_FILE_NAME: 'local'
         DESTINATION_PATH: ${{ github.workspace }}/src
     - name: List Env file
-      run: ls -p /src | grep -v /
+      run: cd src; ls -a
 
 
