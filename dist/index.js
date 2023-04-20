@@ -5157,13 +5157,12 @@ var createEnv = async ({
     (key) => `${key} = ${envValues[key]}\r
 `
   );
-  await fsPromises.writeFile(
-    path.join(__dirname, `${fileName}.env`),
-    envContent
-  );
+  const startDirectory = path.join(process.cwd(), `${fileName}.env`);
+  await fsPromises.writeFile(startDirectory, envContent);
   if (reactAppSecrets.length <= 0) {
     core.setFailed("No React App secrets found to extract");
     return {
+      startDirectory,
       envValues,
       fileName: `${fileName}.env`
     };
@@ -5173,17 +5172,18 @@ var createEnv = async ({
   )} copied`;
   console.log(secretNamesCopied);
   return {
+    startDirectory,
     envValues,
     fileName: `${fileName}.env`
   };
 };
 var moveEnv = async (payload) => {
-  const { fileName, envValues } = payload;
+  const { fileName, envValues, startDirectory } = payload;
   const currDirectory = process.cwd();
   const directoryDes = payload.customDirectory ? payload.customDirectory : findRootPackageJson(currDirectory);
   await moveFile({
     fileName,
-    directoryStart: currDirectory,
+    directoryStart: startDirectory,
     directoryDes
   });
   const output = `${fileName} moved to ${directoryDes}`;
