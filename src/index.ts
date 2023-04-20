@@ -45,7 +45,6 @@ const createEnv = async ({
   const reactAppSecrets = Object.entries(secretsParse).filter(([key, value]) =>
     /REACT_APP.*/.test(key)
   );
-  if(reactAppSecrets.length <= 0 ) return core.setFailed("No React App secrets found to extract")
   const envValues: {
     [key: string]: string;
   } = {};
@@ -59,6 +58,14 @@ const createEnv = async ({
     envContent
   );
   //notify what secrets were copied
+  if (reactAppSecrets.length <= 0) {
+    core.setFailed("No React App secrets found to extract");
+    return {
+      envValues,
+      fileName: `${fileName}.env`,
+    };
+  }
+
   const secretNamesCopied = `${Object.keys(envValues).reduce(
     (a, b) => a + ", " + b
   )} copied`;

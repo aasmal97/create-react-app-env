@@ -5160,6 +5160,13 @@ var createEnv = async ({
     path.join(__dirname, `${fileName}.env`),
     envContent
   );
+  if (reactAppSecrets.length <= 0) {
+    core.setFailed("No React App secrets found to extract");
+    return {
+      envValues,
+      fileName: `${fileName}.env`
+    };
+  }
   const secretNamesCopied = `${Object.keys(envValues).reduce(
     (a, b) => a + ", " + b
   )} copied`;
