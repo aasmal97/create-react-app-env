@@ -2229,7 +2229,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path2.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
-    function getInput(name, options) {
+    function getInput2(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -2239,9 +2239,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports.getInput = getInput;
+    exports.getInput = getInput2;
     function getMultilineInput(name, options) {
-      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -2251,7 +2251,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput(name, options);
+      const val = getInput2(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -2260,7 +2260,7 @@ var require_core = __commonJS({
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.getBooleanInput = getBooleanInput;
-    function setOutput(name, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
@@ -2268,16 +2268,16 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(os.EOL);
       command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
-    exports.setOutput = setOutput;
+    exports.setOutput = setOutput2;
     function setCommandEcho(enabled) {
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed(message) {
+    function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
-    exports.setFailed = setFailed;
+    exports.setFailed = setFailed2;
     function isDebug() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
@@ -5112,7 +5112,7 @@ __export(src_exports, {
   main: () => main
 });
 module.exports = __toCommonJS(src_exports);
-var import_core = __toESM(require_core());
+var core = __toESM(require_core());
 var import_mv = __toESM(require_mv());
 var fs = __toESM(require("fs"));
 var path = __toESM(require("path"));
@@ -5181,7 +5181,7 @@ var moveEnv = async (payload) => {
   });
   const output = `${fileName} moved to ${directoryDes}`;
   console.log(output);
-  import_core.default.setOutput("reactSecrets", envValues);
+  core.setOutput("reactSecrets", envValues);
 };
 var createEnvFile = async ({
   inputs,
@@ -5196,13 +5196,13 @@ var createEnvFile = async ({
     await moveEnv({ ...payload, customDirectory });
   } catch (err) {
     console.error(err);
-    import_core.default.setFailed("Something went wrong. Check error in logs");
+    core.setFailed("Something went wrong. Check error in logs");
   }
 };
 var main = async () => {
-  const inputs = import_core.default.getInput("REACT_APP_SECRETS");
-  const customName = import_core.default.getInput("ENV_FILE_NAME");
-  const customDirectory = import_core.default.getInput("DESTINATION_PATH");
+  const inputs = core.getInput("REACT_APP_SECRETS");
+  const customName = core.getInput("ENV_FILE_NAME");
+  const customDirectory = core.getInput("DESTINATION_PATH");
   return createEnvFile({
     inputs,
     customName,
