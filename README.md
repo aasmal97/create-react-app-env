@@ -5,7 +5,7 @@ This Github Action generates a local .env file in a github runner for react apps
 ## How this action works
 1. First, the action parses the secrets object, and filters out any secrets that do not match the REACT_APP prefix.
 2. After, the action creates a `.env` file (or a `prefix.env` if a `ENV_FILE_NAME` was specified) in the current working directory of the runner. 
-3. Then, the action moves the generated file to the custom destination path provided by the user, OR recursively searches up from the current working directory, to find the **NEAREST** `package.json` file. 
+3. Then, the action moves the generated file to the custom destination path provided by the user, OR recursively searches up from the current working directory, to find the **NEAREST** `package.json` file, and moves the `.env` file to it's same directory.
 4. Once the action confirms the move, the runner exits, and if no error is present, continues to the next step
 
 ## How to Use:
